@@ -1,29 +1,69 @@
-let currentUser = null;
-let unlocked = ["1-1"];
+let currentUser = "";
+let currentLesson = null;
 let currentQIdx = 0;
 let score = 0;
 let timeLeft = 10;
 let timerObj = null;
 
-// --- LOGIN SYSTEM ---
+// --- LOGIN ---
 function handleLogin() {
     const name = document.getElementById('username').value;
-    if (!name) return alert("Please enter a name!");
+    if (!name) return alert("Please enter your name!");
     currentUser = name;
-    document.getElementById('user-display').innerText = "👤 " + name;
+    document.getElementById('user-display').innerText = name;
     document.getElementById('welcome-msg').innerText = `Përshëndetje, ${name}!`;
     showScreen('screen-welcome');
 }
 
-// --- NAVIGATION ---
+// --- MENU & NAVIGATION ---
+function toggleMenu() {
+    const menu = document.getElementById('side-menu');
+    const overlay = document.getElementById('menu-overlay');
+    menu.classList.toggle('open');
+    overlay.classList.toggle('hidden');
+}
+
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+    
+    // Close menu if moving screens
+    document.getElementById('side-menu').classList.remove('open');
+    document.getElementById('menu-overlay').classList.add('hidden');
+
     if (id === 'screen-worlds') renderMap();
-    if (timerObj) clearInterval(timerObj); // Stop timer when moving screens
+    if (id !== 'screen-quiz') clearInterval(timerObj);
 }
 
-// --- TIMER LOGIC ---
+// --- WORLD MAP ---
+function renderMap() {
+    const container = document.getElementById('worlds-container');
+    container.innerHTML = "";
+
+    albanianApp.worlds.forEach(w => {
+        const worldBox = document.createElement('div');
+        worldBox.style.cssText = "background:#fff; border:2px solid #eee; border-radius:20px; padding:20px; margin-bottom:20px; text-align:left;";
+        
+        worldBox.innerHTML = `
+            <div style="font-size:0.8rem; color:var(--primary); font-weight:bold;">${w.subtitle.toUpperCase()}</div>
+            <div style="font-size:1.4rem; font-weight:bold; margin:5px 0;">${w.icon} ${w.title}</div>
+            <div style="font-size:0.85rem; color:#666; margin-bottom:15px;">Guide: ${w.character}</div>
+        `;
+
+        w.lessons.forEach(l => {
+            const lBtn = document.createElement('button');
+            lBtn.className = "btn";
+            lBtn.style.width = "100%";
+            lBtn.innerText = "Start: " + l.title;
+            lBtn.onclick = () => startQuiz(l);
+            worldBox.appendChild(lBtn);
+        });
+
+        container.appendChild(worldBox);
+    });
+}
+
+// --- QUIZ TIMER ---
 function startTimer() {
     timeLeft = 10;
     updateTimerUI();
@@ -33,7 +73,7 @@ function startTimer() {
         updateTimerUI();
         if (timeLeft <= 0) {
             clearInterval(timerObj);
-            checkAnswer(null, null, null); // Auto-fail on timeout
+            checkAnswer(null, currentLesson.questions[currentQIdx].a, null);
         }
     }, 1000);
 }
@@ -41,30 +81,6 @@ function startTimer() {
 function updateTimerUI() {
     document.getElementById('timer-text').innerText = timeLeft + "s";
     document.getElementById('timer-bar').style.width = (timeLeft * 10) + "%";
-}
-
-// --- MAP RENDERING ---
-function renderMap() {
-    const container = document.getElementById('worlds-container');
-    container.innerHTML = "";
-    albanianApp.worlds.forEach(w => {
-        const div = document.createElement('div');
-        div.style.background = "#f0f0f0";
-        div.style.margin = "10px 0";
-        div.style.padding = "15px";
-        div.style.borderRadius = "15px";
-        div.innerHTML = `<strong>${w.icon} ${w.title}</strong><br><small>${w.subtitle}</small>`;
-        
-        w.lessons.forEach(l => {
-            const btn = document.createElement('button');
-            btn.className = "btn";
-            btn.style.width = "100%";
-            btn.innerText = l.title;
-            btn.onclick = () => startQuiz(l);
-            div.appendChild(btn);
-        });
-        container.appendChild(div);
-    });
 }
 
 // --- QUIZ LOGIC ---
@@ -77,49 +93,58 @@ function startQuiz(lesson) {
 }
 
 function loadQuestion() {
-    const q = currentLesson.questions[currentQIdx];
-    document.getElementById('question-text').innerText = q.q;
+    const qData = currentLesson.questions[currentQIdx];
+    document.getElementById('question-text').innerText = qData.q;
     document.getElementById('feedback').innerText = "";
     
     const grid = document.getElementById('options-grid');
     grid.innerHTML = "";
 
-    // Shuffle answers
-    const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+    // Shuffle options so correct answer isn't always at the same spot
+    const shuffled = [...qData.options].sort(() => Math.random() - 0.5);
 
     shuffled.forEach(opt => {
-        const div = document.createElement('div');
-        div.className = 'option';
-        div.innerText = opt;
-        div.onclick = () => checkAnswer(opt, q.a, div);
-        grid.appendChild(div);
+        const btn = document.createElement('div');
+        btn.className = 'option';
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt, qData.a, btn);
+        grid.appendChild(btn);
     });
     
     startTimer();
 }
 
-function checkAnswer(selected, correct, el) {
+function checkAnswer(selected, correct, element) {
     clearInterval(timerObj);
-    const options = document.querySelectorAll('.option');
-    options.forEach(o => o.style.pointerEvents = 'none');
+    document.querySelectorAll('.option').forEach(o => o.style.pointerEvents = 'none');
+
+    const feedbackEl = document.getElementById('feedback');
 
     if (selected === correct) {
-        el.classList.add('correct');
+        if (element) element.classList.add('correct');
         score += 10;
-        document.getElementById('feedback').innerText = "Sakërt! (Correct!)";
+        const cheers = albanianApp.feedback.correct;
+        feedbackEl.innerText = cheers[Math.floor(Math.random() * cheers.length)];
+        feedbackEl.style.color = "#00b894";
     } else {
-        if(el) el.classList.add('wrong');
-        document.getElementById('feedback').innerText = selected === null ? "Time is up!" : "Gabim! It was: " + correct;
+        if (element) element.classList.add('wrong');
+        const oops = albanianApp.feedback.wrong;
+        let msg = oops[Math.floor(Math.random() * oops.length)];
+        feedbackEl.innerText = msg.replace("[ANS]", correct);
+        feedbackEl.style.color = "var(--secondary)";
     }
 
     setTimeout(() => {
         currentQIdx++;
-        if (currentQIdx < currentLesson.questions.length) loadQuestion();
-        else {
-            document.getElementById('final-score').innerText = `Total Score: ${score}`;
-            showScreen('screen-end');
+        if (currentQIdx < currentLesson.questions.length) {
+            loadQuestion();
+        } else {
+            finishQuiz();
         }
     }, 2000);
 }
 
-function toggleMenu() { /* Menu logic... */ }
+function finishQuiz() {
+    document.getElementById('final-score').innerText = `You earned ${score} points!`;
+    showScreen('screen-end');
+}
