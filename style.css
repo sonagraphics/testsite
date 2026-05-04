@@ -156,7 +156,17 @@ body {
 /* ================== QUIZ ELEMENTS ================== */
 .timer-container { width: 100%; height: 12px; background: #eee; border-radius: 20px; margin-bottom: 20px; overflow: hidden; }
 .timer-bar { height: 100%; width: 100%; background-color: var(--correct); transition: width 1s linear, background-color 0.5s ease; }
-.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Stacks them in one column on mobile */
+    gap: 10px;
+}
+
+@media (min-width: 400px) {
+    .options-grid {
+        grid-template-columns: 1fr 1fr; /* Two columns for slightly wider screens */
+    }
+}
 .option { background: var(--white); border: 2px solid #eaeaea; padding: 15px; border-radius: 15px; cursor: pointer; font-size: 1.1rem; font-weight: bold; text-align: center; }
 .correct { background: var(--correct) !important; color: white !important; border-color: var(--correct) !important; }
 .wrong { background: var(--wrong) !important; color: white !important; border-color: var(--wrong) !important; }
