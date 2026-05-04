@@ -10,201 +10,9 @@
 
     <header class="app-header">
         <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <img src="const albanianApp = {
-  // --- APP BRANDING ---
-  logo: "Eralogofinalwhite.png",
-  appName: "Era: Mëso Shqip",
-
-  // --- STREAK SYSTEM ---
-  streaks: {
-    1: { label: "Spark", icon: "🕯️" },
-    3: { label: "Campfire", icon: "🔥" },
-    7: { label: "Dragon Breath", icon: "🐲" },
-    30: { label: "Era Legend", icon: "🌪️" }
-  },
-
-  // --- FEEDBACK SYSTEM ---
-  feedback: {
-    correct: [
-      "YAY! That’s right! 🎉",
-      "You got it!!",
-      "Amazing job!",
-      "That was perfect!",
-      "You’re a star ⭐"
-    ],
-    wrong: [
-      "Oops! The right answer is: [ANS]",
-      "Not this time! It’s [ANS]",
-      "Almost! We say: [ANS]",
-      "Good try! The correct one is [ANS]",
-      "Close! The answer is [ANS]",
-      "Oops! In Albanian, we say [ANS]"
-    ]
-  },
-
-  // --- GAME: PIKA E SHIUT (Raindrop Match) ---
-  game: {
-    name: "Pika e Shiut",
-    description: "Catch the falling English raindrops with the correct Albanian umbrella!",
-    mechanic: "Falling words match",
-    levels: ["Slow", "Steady", "Stormy"]
-  },
-
-  // --- 10 WORLDS OF LEARNING ---
-  worlds: [
-    {
-      id: 1,
-      title: "WORLD 1: The First Breath",
-      character: "Luli the Stork",
-      lessons: [
-        {
-          title: "Hello & Goodbye",
-          questions: [
-            { q: "How do you say 'Hello'?", options: ["Përshëndetje", "Bukë", "Mollë"], a: "Përshëndetje" },
-            { q: "What is 'Goodbye'?", options: ["Mirupafshim", "Po", "Jo"], a: "Mirupafshim" },
-            { q: "How do you say 'Please'?", options: ["Ju lutem", "Faleminderit", "Si je?"], a: "Ju lutem" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 2,
-      title: "WORLD 2: My Family",
-      character: "Bora the Bunny",
-      lessons: [
-        {
-          title: "The People I Love",
-          questions: [
-            { q: "What is 'Mother'?", options: ["Nënë/Mami", "Babai", "Vëllai"], a: "Nënë/Mami" },
-            { q: "What is 'Father'?", options: ["Babai", "Motra", "Gjyshi"], a: "Babai" },
-            { q: "Translate: 'I love you'", options: ["Të dua", "Më fal", "Natën e mirë"], a: "Të dua" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 3,
-      title: "WORLD 3: School Days",
-      character: "Shqiponja (The Eagle)",
-      lessons: [
-        {
-          title: "My Schoolbag",
-          questions: [
-            { q: "What is 'Book'?", options: ["Libër", "Laps", "Fletore"], a: "Libër" },
-            { q: "I have a pencil:", options: ["Unë kam një laps", "Unë kam një libër", "Ti ke një mace"], a: "Unë kam një laps" },
-            { q: "Translate: 'School'", options: ["Shkollë", "Shtëpi", "Park"], a: "Shkollë" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 4,
-      title: "WORLD 4: The Yummy Market",
-      character: "Berti the Bear",
-      lessons: [
-        {
-          title: "Fruits & Snacks",
-          questions: [
-            { q: "What is 'Apple'?", options: ["Mollë", "Dardhë", "Portokall"], a: "Mollë" },
-            { q: "I am eating bread:", options: ["Unë po ha bukë", "Unë po pi ujë", "Unë po fle"], a: "Unë po ha bukë" },
-            { q: "What is 'Milk'?", options: ["Qumësht", "Ujë", "Lëng"], a: "Qumësht" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 5,
-      title: "WORLD 5: Animals & Nature",
-      character: "Dhelpra (The Fox)",
-      lessons: [
-        {
-          title: "Wild Friends",
-          questions: [
-            { q: "What is 'Dog'?", options: ["Qen", "Mace", "Ujk"], a: "Qen" },
-            { q: "The bird is singing:", options: ["Zogu po këndon", "Mace po fle", "Peshku noton"], a: "Zogu po këndon" },
-            { q: "What is 'Tree'?", options: ["Pemë", "Lule", "Gjethe"], a: "Pemë" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 6,
-      title: "WORLD 6: My Body",
-      character: "Dreri (The Deer)",
-      lessons: [
-        {
-          title: "Head to Toes",
-          questions: [
-            { q: "What is 'Head'?", options: ["Kokë", "Dorë", "Këmbë"], a: "Kokë" },
-            { q: "I have two eyes:", options: ["Kam dy sy", "Kam dy veshë", "Kam një hundë"], a: "Kam dy sy" },
-            { q: "What is 'Hand'?", options: ["Dorë", "Gojë", "Flokë"], a: "Dorë" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 7,
-      title: "WORLD 7: Rainbow Colors",
-      character: "Flutura (The Butterfly)",
-      lessons: [
-        {
-          title: "Dressing Up",
-          questions: [
-            { q: "The color 'Red' is:", options: ["Kuq", "Kaltër", "Verdhë"], a: "Kuq" },
-            { q: "I am wearing a white shirt:", options: ["Kam veshur këmishë të bardhë", "Kam veshur këmishë të zezë", "Kam veshur pantallona"], a: "Kam veshur këmishë të bardhë" },
-            { q: "What is 'Blue'?", options: ["Kaltër", "Gjelbër", "Portokalli"], a: "Kaltër" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 8,
-      title: "WORLD 8: In the City",
-      character: "Gjirafa (The Giraffe)",
-      lessons: [
-        {
-          title: "Places to Go",
-          questions: [
-            { q: "Where is the park?", options: ["Ku është parku?", "Ku është shtëpia?", "Ku është makina?"], a: "Ku është parku?" },
-            { q: "What is 'Car'?", options: ["Makinë", "Biçikletë", "Autobus"], a: "Makinë" },
-            { q: "I am going to the shop:", options: ["Po shkoj në dyqan", "Po shkoj në shkollë", "Po shkoj në gjumë"], a: "Po shkoj në dyqan" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 9,
-      title: "WORLD 9: Time & Weather",
-      character: "Hëna (The Owl)",
-      lessons: [
-        {
-          title: "Day & Night",
-          questions: [
-            { q: "What time is it?", options: ["Sa është ora?", "Çfarë dite është?", "Sa kushton?"], a: "Sa është ora?" },
-            { q: "Today it is raining:", options: ["Sot bie shi", "Sot ka diell", "Sot fryn erë"], a: "Sot bie shi" },
-            { q: "Translate: 'Good Night'", options: ["Natën e mirë", "Mirëdita", "Mirëmëngjes"], a: "Natën e mirë" }
-          ]
-        }
-      ]
-    },
-    {
-      id: 10,
-      title: "WORLD 10: The Master of Era",
-      character: "The Era Spirit (Logo)",
-      lessons: [
-        {
-          title: "Big Conversations",
-          questions: [
-            { q: "Translate: 'I am proud of you'", options: ["Jam krenar për ty", "Më pëlqen kjo", "Ti je mirë"], a: "Jam krenar për ty" },
-            { q: "How do you say 'I can speak Albanian'?", options: ["Unë flas shqip", "Unë ha bukë", "Unë dua ujë"], a: "Unë flas shqip" },
-            { q: "Although it's hard, I'll try:", options: ["Megjithëse është vështirë, do provoj", "Është shumë lehtë", "Nuk e di"], a: "Megjithëse është vështirë, do provoj" }
-          ]
-        }
-      ]
-    }
-  ]
-};" class="logo-small" alt="Era Logo">
-        <div class="header-spacer"></div> </header>
+        <img src="Eralogofinal-01.png" class="logo-small" alt="Era Logo">
+        <div class="header-spacer"></div> 
+    </header>
 
     <div id="side-menu" class="side-menu">
         <button class="close-menu" onclick="toggleMenu()">✖</button>
@@ -212,80 +20,45 @@
         <hr>
         <button class="menu-btn" onclick="showScreen('screen-welcome')">🏠 Home</button>
         <button class="menu-btn" onclick="showScreen('screen-worlds')">🗺️ Lessons Map</button>
-        <button class="menu-btn" onclick="showScreen('screen-search')">🔍 Word Search</button>
     </div>
     <div id="menu-overlay" class="overlay hidden" onclick="toggleMenu()"></div>
 
-    <div id="login-modal" class="modal hidden">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeLogin()">✖</button>
-            <h2>Create Profile</h2>
-            <p>Save your progress across devices!</p>
-            <input type="text" placeholder="Username" class="login-input">
-            <input type="password" placeholder="Password" class="login-input">
-            <button class="btn" onclick="closeLogin()">Sign In</button>
-            <button class="btn btn-outline" onclick="closeLogin()">Maybe Later</button>
-        </div>
-    </div>
-    <div id="login-overlay" class="overlay hidden" onclick="closeLogin()"></div>
-
     <div class="app-container">
-
         <div id="screen-welcome" class="screen active">
-            <h1>🇦🇱 Mirësevini!</h1>
-            <p>Ready to learn Albanian today?</p>
-            
+            <h1> Mirësevini!</h1>
             <div class="daily-tracker">
-                <h3>🔥 Daily Streak: <span id="streak-count">0</span></h3>
-                <div class="days-grid" id="tracker-days">
-                    </div>
+                <h3>🔥 Streak: <span id="streak-count">0</span> <span id="streak-icon">🕯️</span></h3>
+                <div class="days-grid" id="tracker-days"></div>
                 <button id="btn-checkin" class="btn" onclick="checkInToday()">Check In Today!</button>
             </div>
-
-            <button class="btn bounce" onclick="showScreen('screen-worlds')" style="margin-top: 20px; width: 100%;">🗺️ Go to Lessons</button>
+            <button class="btn bounce" onclick="showScreen('screen-worlds')">🗺️ Start Learning</button>
         </div>
 
         <div id="screen-worlds" class="screen">
-            <h2>Choose a Lesson!</h2>
-            <div class="floating-star">⭐</div>
-            <div class="floating-star style-2">✨</div>
-
-            <div id="worlds-container" class="worlds-container">
-                </div>
+            <h2>Choose a World!</h2>
+            <div id="worlds-container" class="worlds-container"></div>
         </div>
 
         <div id="screen-quiz" class="screen">
             <div class="progress-header">
-                <span><span id="quiz-title-display">Lesson</span></span>
+                <span id="quiz-title-display">Lesson</span>
                 <span>Score: <span id="score-num">0</span></span>
             </div>
-            
-            <div class="timer-container">
-                <div id="timer-bar" class="timer-bar"></div>
-            </div>
-
+            <div class="timer-container"><div id="timer-bar" class="timer-bar"></div></div>
             <h2 id="question-text">Loading...</h2>
             <div class="options-grid" id="options-grid"></div>
-            <p id="feedback" style="margin-top: 15px; font-weight: bold;"></p>
-        </div>
-
-        <div id="screen-search" class="screen">
-            <h3>Gjej Fjalët!</h3>
-            <p>Find: <strong>MOLLË, BUKË, UJË, QEN</strong></p>
-            <div class="word-grid" id="word-grid"></div>
-            <button class="btn btn-outline" onclick="showScreen('screen-welcome')">Main Menu</button>
+            <p id="feedback"></p>
         </div>
 
         <div id="screen-end" class="screen">
             <h1>Bravo! 🌟</h1>
-            <p>You earned a new badge!</p>
             <div class="huge-badge">🏆</div>
             <h2 id="final-score"></h2>
             <button class="btn" onclick="showScreen('screen-worlds')">Back to Map</button>
         </div>
-
     </div>
 
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
