@@ -3,57 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Era App</title>
+    <title>Era Albanian</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="app-container">
+        <div id="menu-overlay" class="hidden" onclick="toggleMenu()"></div>
+        <div id="side-menu" class="side-menu">
+            <div class="menu-item" onclick="showScreen('screen-welcome')">Home</div>
+            <div class="menu-item" onclick="showScreen('screen-worlds')">Lesson Map</div>
+            <div class="menu-item" onclick="location.reload()">Reset App</div>
+        </div>
+
         <header class="app-header">
-            <div onclick="toggleMenu()" style="cursor:pointer">☰</div>
-            <img src="Eralogofinalwhite.png" class="logo-small" alt="Logo">
-            <div id="user-display">👤 Guest</div>
-        </header>
+            <div id="menu-trigger" onclick="toggleMenu()" style="cursor:pointer; font-size:1.2rem;">MENU</div>
+            <img src="Eralogofinalwhite.png" class="logo-small">
+            <div style="width:40px;"></div> </header>
 
-        <!-- Login Screen -->
         <div id="screen-login" class="screen active">
-            <h2>Welcome to Era!</h2>
-            <p>Learn Albanian the fun way.</p>
-            <input type="text" id="username" class="auth-input" placeholder="Your Name">
-            <button class="btn" onclick="handleLogin()">Join the Adventure</button>
+            <h2 style="color:var(--burgundy);">Welcome</h2>
+            <p>Enter your name to begin.</p>
+            <input type="text" id="username" class="auth-input" placeholder="Name">
+            <button class="btn" onclick="handleLogin()">ENTER</button>
         </div>
 
-        <!-- Welcome Screen -->
         <div id="screen-welcome" class="screen">
-            <h1 id="welcome-msg">Përshëndetje!</h1>
-            <div class="streak-box">🔥 Streak: <span id="streak-num">0</span></div>
-            <button class="btn" onclick="showScreen('screen-worlds')">Go to Map</button>
+            <h1 id="welcome-msg" style="color:var(--burgundy);">Welcome</h1>
+            <p>Ready for your next lesson?</p>
+            <button class="btn" onclick="showScreen('screen-worlds')">VIEW LESSONS</button>
         </div>
 
-        <!-- Worlds Map -->
         <div id="screen-worlds" class="screen">
-            <h2>Your Journey</h2>
-            <div id="worlds-container" style="width:100%"></div>
+            <h2 style="color:var(--burgundy);">Lesson Map</h2>
+            <div id="worlds-container" style="width:100%;"></div>
         </div>
 
-        <!-- Quiz Screen -->
         <div id="screen-quiz" class="screen">
-            <div class="timer-container">
-                <div id="timer-bar" class="timer-bar"></div>
-            </div>
-            <div id="timer-text">10s</div>
-            
-            <h2 id="question-text">Question?</h2>
-            
+            <div class="timer-container"><div id="timer-bar" class="timer-bar"></div></div>
+            <div id="timer-text" style="font-size:0.9rem; font-weight:bold;">10s</div>
+            <h2 id="question-text">Question</h2>
             <div class="options-grid" id="options-grid"></div>
-            <p id="feedback" style="font-weight:bold; margin-top: 20px;"></p>
+            <p id="feedback" style="margin-top:20px; font-weight:bold;"></p>
         </div>
 
-        <!-- End Screen -->
         <div id="screen-end" class="screen">
-            <h1>Bravo!</h1>
+            <h2 style="color:var(--burgundy);">Lesson Finished</h2>
             <p id="final-score"></p>
-            <button class="btn" onclick="showScreen('screen-worlds')">Next Lesson</button>
+            <button class="btn" onclick="showScreen('screen-worlds')">CONTINUE</button>
         </div>
     </div>
 
