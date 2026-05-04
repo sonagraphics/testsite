@@ -11,7 +11,7 @@ const albanianApp = {
     },
     worlds: [
         { 
-            id: 1, title: "WORLD 1", subtitle: "Greetings", character: "Luli the Stork", icon: "👋",
+            id: 1, title: "Home Adventure", subtitle: "Greetings", character: "Luli the Stork", icon: "👋",
             lessons: [{ 
                 id: "1-1", title: "Meeting People", 
                 questions: [
@@ -24,7 +24,7 @@ const albanianApp = {
             }] 
         },
         { 
-            id: 2, title: "WORLD 2", subtitle: "My Family", character: "Bora the Bunny", icon: "🏠",
+            id: 2, title: "The Family Tree", subtitle: "My Family", character: "Bora the Bunny", icon: "🏠",
             lessons: [{ 
                 id: "2-1", title: "My Relatives", 
                 questions: [
@@ -38,7 +38,7 @@ const albanianApp = {
             }]
         },
         { 
-            id: 3, title: "WORLD 3", subtitle: "School", character: "Shqiponja", icon: "🎒",
+            id: 3, title: "Classroom Fun", subtitle: "School", character: "Shqiponja", icon: "🎒",
             lessons: [{ 
                 id: "3-1", title: "School Supplies", 
                 questions: [
@@ -51,7 +51,7 @@ const albanianApp = {
             }]
         },
         { 
-            id: 4, title: "WORLD 4", subtitle: "Food", character: "Berti the Bear", icon: "🍎",
+            id: 4, title: "Tirana Café", subtitle: "Food", character: "Berti the Bear", icon: "🍎",
             lessons: [{ 
                 id: "4-1", title: "The Market", 
                 questions: [
@@ -64,7 +64,7 @@ const albanianApp = {
             }]
         },
         { 
-            id: 5, title: "WORLD 5", subtitle: "Animals", character: "Dhelpra", icon: "🦊",
+            id: 5, title: "Animal Safari", subtitle: "Animals", character: "Dhelpra", icon: "🦊",
             lessons: [{ 
                 id: "5-1", title: "Animal Friends", 
                 questions: [
@@ -77,7 +77,7 @@ const albanianApp = {
             }]
         },
         { 
-            id: 6, title: "WORLD 6", subtitle: "Body", character: "Dreri", icon: "🤳",
+            id: 6, title: "The Mirror", subtitle: "Body", character: "Dreri", icon: "🤳",
             lessons: [{ 
                 id: "6-1", title: "My Body", 
                 questions: [
@@ -90,7 +90,7 @@ const albanianApp = {
             }]
         },
         { 
-            id: 7, title: "WORLD 7", subtitle: "Colors", character: "Flutura", icon: "🎨",
+            id: 7, title: "Rainbow Road", subtitle: "Colors", character: "Flutura", icon: "🎨",
             lessons: [{ 
                 id: "7-1", title: "The Rainbow", 
                 questions: [
@@ -103,7 +103,7 @@ const albanianApp = {
             }]
         },
         { 
-            id: 8, title: "WORLD 8", subtitle: "The City", character: "Gjirafa", icon: "🏙️",
+            id: 8, title: "Market Day", subtitle: "The City", character: "Gjirafa", icon: "🏙️",
             lessons: [{ 
                 id: "8-1", title: "In Town", 
                 questions: [
@@ -116,7 +116,7 @@ const albanianApp = {
             }]
         },
         { 
-            id: 9, title: "WORLD 9", subtitle: "Weather", character: "Hëna", icon: "☁️",
+            id: 9, title: "Cloud Watcher", subtitle: "Weather", character: "Hëna", icon: "☁️",
             lessons: [{ 
                 id: "9-1", title: "Nature's Moods", 
                 questions: [
@@ -129,7 +129,7 @@ const albanianApp = {
             }]
         },
         { 
-            id: 10, title: "WORLD 10", subtitle: "Era Master", character: "Era Spirit", icon: "🌪️",
+            id: 10, title: "Celebration Time", subtitle: "Era Master", character: "Era Spirit", icon: "🌪️",
             lessons: [{ 
                 id: "10-1", title: "Conversations", 
                 questions: [
