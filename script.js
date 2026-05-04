@@ -1,60 +1,73 @@
-let unlockedLessons = ["1-1"];
-let score = 0;
-let streak = 0;
-let lastCheckIn = "";
-let currentLesson = null;
+let currentUser = null;
+let unlocked = ["1-1"];
 let currentQIdx = 0;
-let timerInterval;
+let score = 0;
+let timeLeft = 10;
+let timerObj = null;
 
-function loadMemory() {
-    const saved = localStorage.getItem('eraData');
-    if (saved) {
-        const data = JSON.parse(saved);
-        unlockedLessons = data.unlocked || ["1-1"];
-        streak = data.streak || 0;
-        lastCheckIn = data.lastCheckIn || "";
-    }
+// --- LOGIN SYSTEM ---
+function handleLogin() {
+    const name = document.getElementById('username').value;
+    if (!name) return alert("Please enter a name!");
+    currentUser = name;
+    document.getElementById('user-display').innerText = "👤 " + name;
+    document.getElementById('welcome-msg').innerText = `Përshëndetje, ${name}!`;
+    showScreen('screen-welcome');
 }
 
-function saveMemory() {
-    localStorage.setItem('eraData', JSON.stringify({
-        unlocked: unlockedLessons,
-        streak: streak,
-        lastCheckIn: lastCheckIn
-    }));
-}
-
+// --- NAVIGATION ---
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     if (id === 'screen-worlds') renderMap();
-    if (id === 'screen-welcome') updateStreakUI();
+    if (timerObj) clearInterval(timerObj); // Stop timer when moving screens
 }
 
+// --- TIMER LOGIC ---
+function startTimer() {
+    timeLeft = 10;
+    updateTimerUI();
+    clearInterval(timerObj);
+    timerObj = setInterval(() => {
+        timeLeft--;
+        updateTimerUI();
+        if (timeLeft <= 0) {
+            clearInterval(timerObj);
+            checkAnswer(null, null, null); // Auto-fail on timeout
+        }
+    }, 1000);
+}
+
+function updateTimerUI() {
+    document.getElementById('timer-text').innerText = timeLeft + "s";
+    document.getElementById('timer-bar').style.width = (timeLeft * 10) + "%";
+}
+
+// --- MAP RENDERING ---
 function renderMap() {
     const container = document.getElementById('worlds-container');
     container.innerHTML = "";
-    albanianApp.worlds.forEach(world => {
-        const worldDiv = document.createElement('div');
-        worldDiv.className = 'world-section';
-        worldDiv.innerHTML = `<h3>${world.title}: ${world.subtitle} <small>(${world.character})</small></h3>`;
+    albanianApp.worlds.forEach(w => {
+        const div = document.createElement('div');
+        div.style.background = "#f0f0f0";
+        div.style.margin = "10px 0";
+        div.style.padding = "15px";
+        div.style.borderRadius = "15px";
+        div.innerHTML = `<strong>${w.icon} ${w.title}</strong><br><small>${w.subtitle}</small>`;
         
-        const scroll = document.createElement('div');
-        scroll.className = 'lessons-scroll';
-        
-        world.lessons.forEach(lesson => {
-            const unlocked = unlockedLessons.includes(lesson.id);
-            const card = document.createElement('div');
-            card.className = `lesson-card ${unlocked ? '' : 'locked'}`;
-            card.innerHTML = `<div class="lesson-icon">${world.icon}</div><div class="lesson-name">${lesson.title}</div>`;
-            if (unlocked) card.onclick = () => startQuiz(lesson);
-            scroll.appendChild(card);
+        w.lessons.forEach(l => {
+            const btn = document.createElement('button');
+            btn.className = "btn";
+            btn.style.width = "100%";
+            btn.innerText = l.title;
+            btn.onclick = () => startQuiz(l);
+            div.appendChild(btn);
         });
-        worldDiv.appendChild(scroll);
-        container.appendChild(worldDiv);
+        container.appendChild(div);
     });
 }
 
+// --- QUIZ LOGIC ---
 function startQuiz(lesson) {
     currentLesson = lesson;
     currentQIdx = 0;
@@ -64,54 +77,49 @@ function startQuiz(lesson) {
 }
 
 function loadQuestion() {
-    const qData = currentLesson.questions[currentQIdx];
-    document.getElementById('question-text').innerText = qData.q;
+    const q = currentLesson.questions[currentQIdx];
+    document.getElementById('question-text').innerText = q.q;
+    document.getElementById('feedback').innerText = "";
+    
     const grid = document.getElementById('options-grid');
     grid.innerHTML = "";
-    qData.options.forEach(opt => {
-        const btn = document.createElement('div');
-        btn.className = 'option';
-        btn.innerText = opt;
-        btn.onclick = () => checkAns(opt, qData.a, btn);
-        grid.appendChild(btn);
+
+    // Shuffle answers
+    const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+
+    shuffled.forEach(opt => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.innerText = opt;
+        div.onclick = () => checkAnswer(opt, q.a, div);
+        grid.appendChild(div);
     });
+    
+    startTimer();
 }
 
-function checkAns(selected, correct, element) {
+function checkAnswer(selected, correct, el) {
+    clearInterval(timerObj);
+    const options = document.querySelectorAll('.option');
+    options.forEach(o => o.style.pointerEvents = 'none');
+
     if (selected === correct) {
-        element.classList.add('correct');
+        el.classList.add('correct');
         score += 10;
-        const msg = albanianApp.feedback.correct[Math.floor(Math.random() * albanianApp.feedback.correct.length)];
-        document.getElementById('feedback').innerText = msg;
+        document.getElementById('feedback').innerText = "Sakërt! (Correct!)";
     } else {
-        element.classList.add('wrong');
-        let msg = albanianApp.feedback.wrong[Math.floor(Math.random() * albanianApp.feedback.wrong.length)];
-        document.getElementById('feedback').innerText = msg.replace("[ANS]", correct);
+        if(el) el.classList.add('wrong');
+        document.getElementById('feedback').innerText = selected === null ? "Time is up!" : "Gabim! It was: " + correct;
     }
-    
+
     setTimeout(() => {
         currentQIdx++;
         if (currentQIdx < currentLesson.questions.length) loadQuestion();
-        else finishQuiz();
-    }, 1500);
+        else {
+            document.getElementById('final-score').innerText = `Total Score: ${score}`;
+            showScreen('screen-end');
+        }
+    }, 2000);
 }
 
-function finishQuiz() {
-    document.getElementById('final-score').innerText = `You scored ${score} points!`;
-    showScreen('screen-end');
-}
-
-function updateStreakUI() {
-    document.getElementById('streak-count').innerText = streak;
-    // Logic to change icon based on albanianApp.streaks goes here
-}
-
-function toggleMenu() {
-    document.getElementById('side-menu').classList.toggle('open');
-    document.getElementById('menu-overlay').classList.toggle('hidden');
-}
-
-window.onload = () => {
-    loadMemory();
-    updateStreakUI();
-};
+function toggleMenu() { /* Menu logic... */ }
