@@ -12,12 +12,12 @@ body, html {
     background-color: var(--bg);
     height: 100%;
     display: flex; justify-content: center;
+    overflow: hidden;
 }
 
-/* Mobile Container */
 .app-container {
     width: 100%;
-    max-width: 500px; /* Standard mobile width */
+    max-width: 500px;
     height: 100vh;
     background: white;
     display: flex;
@@ -29,8 +29,8 @@ body, html {
 .screen {
     display: none;
     flex-direction: column;
-    align-items: center; /* Centers items horizontally */
-    text-align: center;  /* Centers text */
+    align-items: center;
+    text-align: center;
     padding: 20px;
     height: 100%;
     overflow-y: auto;
@@ -48,88 +48,82 @@ body, html {
     color: white;
 }
 
-.logo-small { height: 40px; }
+.logo-small { height: 35px; }
 
-/* Timer Style */
-.timer-container {
-    width: 80%;
-    height: 10px;
-    background: #eee;
-    border-radius: 10px;
-    margin: 20px 0;
-    position: relative;
+/* Menu Overlay */
+#menu-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 99;
 }
+.hidden { display: none; }
 
-.timer-bar {
-    height: 100%;
-    background: var(--accent);
-    width: 100%;
-    border-radius: 10px;
-    transition: width 0.1s linear;
+/* Side Menu */
+.side-menu {
+    position: absolute; left: -280px; top: 0; width: 280px; height: 100%;
+    background: white; z-index: 100; transition: 0.3s;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+    padding-top: 60px;
 }
-
-#timer-text {
-    font-weight: bold;
-    color: var(--primary);
-    margin-top: 5px;
-}
-
-/* Quiz Layout - Fixed Spacing */
-#question-text {
-    margin: 40px 0;
-    font-size: 1.5rem;
+.side-menu.open { left: 0; }
+.menu-item {
+    padding: 15px 25px;
+    font-size: 1.1rem;
     color: var(--text);
-    min-height: 80px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Timer */
+.timer-container {
+    width: 90%; height: 12px;
+    background: #eee; border-radius: 20px;
+    margin: 20px 0 5px 0; overflow: hidden;
+}
+.timer-bar {
+    height: 100%; background: var(--accent);
+    width: 100%; transition: width 1s linear;
+}
+
+/* Quiz Elements */
+#question-text {
+    margin: 40px 0; font-size: 1.4rem; font-weight: bold;
+    color: var(--text); padding: 0 10px;
 }
 
 .options-grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    padding: 10px;
+    width: 100%; display: grid; grid-template-columns: 1fr;
+    gap: 15px; padding: 10px; box-sizing: border-box;
 }
 
 .option {
     background: white;
     border: 2px solid #e0e0e0;
-    border-bottom: 5px solid #e0e0e0; /* 3D effect */
-    padding: 20px;
-    border-radius: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
+    border-bottom: 5px solid #e0e0e0;
+    padding: 18px; border-radius: 15px;
+    font-weight: bold; cursor: pointer; transition: 0.1s;
 }
-
 .option:active { transform: translateY(3px); border-bottom-width: 2px; }
-.option.correct { background: #55efc4; border-color: #00b894; color: white; }
-.option.wrong { background: #ff7675; border-color: #d63031; color: white; }
 
-/* Buttons */
-.btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    font-weight: bold;
-    margin-top: 20px;
+.option.correct { 
+    background: #55efc4; border-color: #00b894; 
+    border-bottom-color: #00b894; color: white; 
+}
+.option.wrong { 
+    background: var(--secondary); border-color: #d63031; 
+    border-bottom-color: #d63031; color: white; 
 }
 
-/* Auth / Login */
+/* Auth / Input */
 .auth-input {
-    width: 80%;
-    padding: 15px;
-    margin: 10px 0;
-    border: 2px solid #eee;
-    border-radius: 10px;
+    width: 85%; padding: 15px; margin: 15px 0;
+    border: 2px solid #eee; border-radius: 12px; font-size: 1rem;
 }
 
-/* Side Menu */
-.side-menu {
-    position: absolute; left: -250px; top: 0; width: 250px; height: 100%;
-    background: white; z-index: 100; transition: 0.3s;
+.btn {
+    background: var(--primary); color: white; border: none;
+    padding: 15px 40px; border-radius: 50px;
+    font-size: 1rem; font-weight: bold; text-transform: uppercase;
+    cursor: pointer; border-bottom: 4px solid #4834d4;
 }
-.side-menu.open { left: 0; }
+.btn:active { transform: translateY(2px); border-bottom-width: 2px; }
