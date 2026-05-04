@@ -2,59 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Era | Mëso Shqip!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Era App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="app-header">
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <img src="Eralogofinal-01.png" class="logo-small" alt="Era Logo">
-        <div class="header-spacer"></div> 
-    </header>
-
-    <div id="side-menu" class="side-menu">
-        <button class="close-menu" onclick="toggleMenu()">✖</button>
-        <button class="menu-btn" onclick="openLogin()">👤 Sign In</button>
-        <hr>
-        <button class="menu-btn" onclick="showScreen('screen-welcome')">🏠 Home</button>
-        <button class="menu-btn" onclick="showScreen('screen-worlds')">🗺️ Lessons Map</button>
-    </div>
-    <div id="menu-overlay" class="overlay hidden" onclick="toggleMenu()"></div>
-
     <div class="app-container">
-        <div id="screen-welcome" class="screen active">
-            <h1> Mirësevini!</h1>
-            <div class="daily-tracker">
-                <h3>🔥 Streak: <span id="streak-count">0</span> <span id="streak-icon">🕯️</span></h3>
-                <div class="days-grid" id="tracker-days"></div>
-                <button id="btn-checkin" class="btn" onclick="checkInToday()">Check In Today!</button>
-            </div>
-            <button class="btn bounce" onclick="showScreen('screen-worlds')">🗺️ Start Learning</button>
+        <header class="app-header">
+            <div onclick="toggleMenu()" style="cursor:pointer">☰</div>
+            <img src="Eralogofinalwhite.png" class="logo-small" alt="Logo">
+            <div id="user-display">👤 Guest</div>
+        </header>
+
+        <!-- Login Screen -->
+        <div id="screen-login" class="screen active">
+            <h2>Welcome to Era!</h2>
+            <p>Learn Albanian the fun way.</p>
+            <input type="text" id="username" class="auth-input" placeholder="Your Name">
+            <button class="btn" onclick="handleLogin()">Join the Adventure</button>
         </div>
 
+        <!-- Welcome Screen -->
+        <div id="screen-welcome" class="screen">
+            <h1 id="welcome-msg">Përshëndetje!</h1>
+            <div class="streak-box">🔥 Streak: <span id="streak-num">0</span></div>
+            <button class="btn" onclick="showScreen('screen-worlds')">Go to Map</button>
+        </div>
+
+        <!-- Worlds Map -->
         <div id="screen-worlds" class="screen">
-            <h2>Choose a World!</h2>
-            <div id="worlds-container" class="worlds-container"></div>
+            <h2>Your Journey</h2>
+            <div id="worlds-container" style="width:100%"></div>
         </div>
 
+        <!-- Quiz Screen -->
         <div id="screen-quiz" class="screen">
-            <div class="progress-header">
-                <span id="quiz-title-display">Lesson</span>
-                <span>Score: <span id="score-num">0</span></span>
+            <div class="timer-container">
+                <div id="timer-bar" class="timer-bar"></div>
             </div>
-            <div class="timer-container"><div id="timer-bar" class="timer-bar"></div></div>
-            <h2 id="question-text">Loading...</h2>
+            <div id="timer-text">10s</div>
+            
+            <h2 id="question-text">Question?</h2>
+            
             <div class="options-grid" id="options-grid"></div>
-            <p id="feedback"></p>
+            <p id="feedback" style="font-weight:bold; margin-top: 20px;"></p>
         </div>
 
+        <!-- End Screen -->
         <div id="screen-end" class="screen">
-            <h1>Bravo! 🌟</h1>
-            <div class="huge-badge">🏆</div>
-            <h2 id="final-score"></h2>
-            <button class="btn" onclick="showScreen('screen-worlds')">Back to Map</button>
+            <h1>Bravo!</h1>
+            <p id="final-score"></p>
+            <button class="btn" onclick="showScreen('screen-worlds')">Next Lesson</button>
         </div>
     </div>
 
