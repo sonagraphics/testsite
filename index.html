@@ -1,45 +1,98 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css" />
-        <style>
-            @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
-        </style>
-        <title>Title</title>
-    </head>
-    <body>
-        <header>
-            <a href="#" class="logo">Amelia Smith</a>
-            <nav>
-                <a href="#">Project</a>
-                <a href="#">Resume</a>
-                <a href="#" class="contact-me">Contact Me</a>
-            </nav>
-        </header>
-        <div class="container">
-            <div class="secondary-nav">
-                <a href="#">sm</a>
-                <a href="#">sm</a>
-                <a href="#">sm</a>
-                <a href="#">sm</a>
-            </div>
-            <div class="content">
-                <div class="hero-text">
-                    <h1>Welcome, I’m Amelia</h1>
-                    <p>I’m a graphic designer based in New York City, with experience in web design, magazine layout and illustration. Look around and feel free to reach out if you want me to be part of your team.</p>
-                    <a href="#">Learn More</a>
-                </div>
-                <div class="hero-img">
-                    <img src="amelie_img.jpg" alt="a photo of a woman" />
-                </div>
-                <div class="anchor-project">
-                    <div class="arrow"></div>
-                    <a href="#">project</a>
-                </div>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Era | Mëso Shqip!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <img src="3909330.png" class="logo-small" alt="Era Logo">
+        <div class="header-spacer"></div> </header>
+
+    <div id="side-menu" class="side-menu">
+        <button class="close-menu" onclick="toggleMenu()">✖</button>
+        <button class="menu-btn" onclick="openLogin()">👤 Sign In</button>
+        <hr>
+        <button class="menu-btn" onclick="showScreen('screen-welcome')">🏠 Home</button>
+        <button class="menu-btn" onclick="showScreen('screen-worlds')">🗺️ Lessons Map</button>
+        <button class="menu-btn" onclick="showScreen('screen-search')">🔍 Word Search</button>
+    </div>
+    <div id="menu-overlay" class="overlay hidden" onclick="toggleMenu()"></div>
+
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeLogin()">✖</button>
+            <h2>Create Profile</h2>
+            <p>Save your progress across devices!</p>
+            <input type="text" placeholder="Username" class="login-input">
+            <input type="password" placeholder="Password" class="login-input">
+            <button class="btn" onclick="closeLogin()">Sign In</button>
+            <button class="btn btn-outline" onclick="closeLogin()">Maybe Later</button>
         </div>
-    </body>
+    </div>
+    <div id="login-overlay" class="overlay hidden" onclick="closeLogin()"></div>
+
+    <div class="app-container">
+
+        <div id="screen-welcome" class="screen active">
+            <h1>🇦🇱 Mirësevini!</h1>
+            <p>Ready to learn Albanian today?</p>
+            
+            <div class="daily-tracker">
+                <h3>🔥 Daily Streak: <span id="streak-count">0</span></h3>
+                <div class="days-grid" id="tracker-days">
+                    </div>
+                <button id="btn-checkin" class="btn" onclick="checkInToday()">Check In Today!</button>
+            </div>
+
+            <button class="btn bounce" onclick="showScreen('screen-worlds')" style="margin-top: 20px; width: 100%;">🗺️ Go to Lessons</button>
+        </div>
+
+        <div id="screen-worlds" class="screen">
+            <h2>Choose a Lesson!</h2>
+            <div class="floating-star">⭐</div>
+            <div class="floating-star style-2">✨</div>
+
+            <div id="worlds-container" class="worlds-container">
+                </div>
+        </div>
+
+        <div id="screen-quiz" class="screen">
+            <div class="progress-header">
+                <span><span id="quiz-title-display">Lesson</span></span>
+                <span>Score: <span id="score-num">0</span></span>
+            </div>
+            
+            <div class="timer-container">
+                <div id="timer-bar" class="timer-bar"></div>
+            </div>
+
+            <h2 id="question-text">Loading...</h2>
+            <div class="options-grid" id="options-grid"></div>
+            <p id="feedback" style="margin-top: 15px; font-weight: bold;"></p>
+        </div>
+
+        <div id="screen-search" class="screen">
+            <h3>Gjej Fjalët!</h3>
+            <p>Find: <strong>MOLLË, BUKË, UJË, QEN</strong></p>
+            <div class="word-grid" id="word-grid"></div>
+            <button class="btn btn-outline" onclick="showScreen('screen-welcome')">Main Menu</button>
+        </div>
+
+        <div id="screen-end" class="screen">
+            <h1>Bravo! 🌟</h1>
+            <p>You earned a new badge!</p>
+            <div class="huge-badge">🏆</div>
+            <h2 id="final-score"></h2>
+            <button class="btn" onclick="showScreen('screen-worlds')">Back to Map</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
