@@ -1,180 +1,135 @@
-/* ================== COLORS & VARIABLES ================== */
 :root {
-    --burgundy: #660033;
-    --burgundy-light: #99004d;
-    --white: #ffffff;
-    --correct: #2ecc71;
-    --warning: #f1c40f;
-    --wrong: #e74c3c;
-    --light-bg: #fdf2f5;
-    --text-dark: #333333;
-    --locked-gray: #dcdcdc;
+    --primary: #6c5ce7;
+    --secondary: #ff7675;
+    --accent: #00cec9;
+    --bg: #f9f9f9;
+    --text: #2d3436;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+body, html {
+    margin: 0; padding: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg);
+    height: 100%;
+    display: flex; justify-content: center;
+}
 
-body {
-    background-color: var(--light-bg);
-    min-height: 100vh;
-    color: var(--text-dark);
+/* Mobile Container */
+.app-container {
+    width: 100%;
+    max-width: 500px; /* Standard mobile width */
+    height: 100vh;
+    background: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding-top: 80px; /* Space for fixed header */
+    position: relative;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
 
-/* ================== HEADER ================== */
+.screen {
+    display: none;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally */
+    text-align: center;  /* Centers text */
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.screen.active { display: flex; }
+
+/* Top Header */
 .app-header {
-    position: fixed;
-    top: 0; left: 0; width: 100%;
-    height: 65px;
-    background: var(--white);
-    box-shadow: 0 4px 10px rgba(102, 0, 51, 0.1);
+    background: var(--primary);
+    padding: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
+    color: white;
 }
 
-.hamburger { font-size: 1.8rem; color: var(--burgundy); cursor: pointer; }
-.logo-small { height: 45px; object-fit: contain; }
-.header-spacer { width: 30px; }
+.logo-small { height: 40px; }
 
-/* ================== MENUS & MODALS ================== */
-.side-menu {
-    position: fixed;
-    top: 0; left: -250px;
-    width: 250px; height: 100vh;
-    background: var(--white);
-    box-shadow: 2px 0 15px rgba(0,0,0,0.1);
-    z-index: 2000;
-    transition: left 0.3s ease;
+/* Timer Style */
+.timer-container {
+    width: 80%;
+    height: 10px;
+    background: #eee;
+    border-radius: 10px;
+    margin: 20px 0;
+    position: relative;
+}
+
+.timer-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 100%;
+    border-radius: 10px;
+    transition: width 0.1s linear;
+}
+
+#timer-text {
+    font-weight: bold;
+    color: var(--primary);
+    margin-top: 5px;
+}
+
+/* Quiz Layout - Fixed Spacing */
+#question-text {
+    margin: 40px 0;
+    font-size: 1.5rem;
+    color: var(--text);
+    min-height: 80px;
+}
+
+.options-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 10px;
+}
+
+.option {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-bottom: 5px solid #e0e0e0; /* 3D effect */
     padding: 20px;
-    display: flex; flex-direction: column; gap: 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:active { transform: translateY(3px); border-bottom-width: 2px; }
+.option.correct { background: #55efc4; border-color: #00b894; color: white; }
+.option.wrong { background: #ff7675; border-color: #d63031; color: white; }
+
+/* Buttons */
+.btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Auth / Login */
+.auth-input {
+    width: 80%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 2px solid #eee;
+    border-radius: 10px;
+}
+
+/* Side Menu */
+.side-menu {
+    position: absolute; left: -250px; top: 0; width: 250px; height: 100%;
+    background: white; z-index: 100; transition: 0.3s;
 }
 .side-menu.open { left: 0; }
-.close-menu, .close-modal {
-    align-self: flex-end; background: none; border: none; font-size: 1.5rem; color: #888; cursor: pointer;
-}
-.menu-btn {
-    background: var(--light-bg); border: none; padding: 15px; border-radius: 10px;
-    color: var(--burgundy); font-weight: bold; text-align: left; cursor: pointer;
-}
-
-.modal {
-    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: white; padding: 30px; border-radius: 20px;
-    z-index: 2000; box-shadow: 0 20px 40px rgba(0,0,0,0.2); width: 90%; max-width: 350px;
-    text-align: center;
-}
-.modal.hidden { display: none; }
-.overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5); z-index: 1500;
-}
-.overlay.hidden { display: none; }
-
-.login-input {
-    width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #eee; border-radius: 10px; font-size: 1rem;
-}
-
-/* ================== APP CONTAINER & SCREENS ================== */
-.app-container {
-    width: 95%; max-width: 550px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(102, 0, 51, 0.1);
-    padding: 30px 20px;
-    position: relative; overflow: hidden;
-    margin-bottom: 30px;
-}
-.screen { display: none; animation: fadeIn 0.4s ease forwards; }
-.screen.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ================== DAILY TRACKER ================== */
-.daily-tracker {
-    background: linear-gradient(135deg, #fff0f5, #ffe6eb);
-    padding: 20px; border-radius: 20px; border: 2px dashed var(--burgundy-light);
-    margin: 20px 0; text-align: center;
-}
-.days-grid {
-    display: flex; justify-content: space-between; margin: 15px 0;
-}
-.day-circle {
-    width: 35px; height: 35px; border-radius: 50%;
-    background: var(--white); border: 2px solid #ddd;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: bold; font-size: 0.9rem; color: #aaa;
-}
-.day-circle.checked { background: var(--correct); color: white; border-color: var(--correct); }
-
-/* ================== WORLDS & LESSONS (HORIZONTAL SCROLL) ================== */
-.worlds-container {
-    text-align: left; margin-top: 20px;
-}
-.world-section { margin-bottom: 30px; }
-.world-title { color: var(--burgundy); font-size: 1.2rem; margin-bottom: 10px; }
-.world-subtitle { font-size: 0.9rem; color: #888; font-weight: normal; }
-
-.lessons-scroll {
-    display: flex; overflow-x: auto; gap: 15px; padding-bottom: 15px;
-    scroll-snap-type: x mandatory;
-}
-.lessons-scroll::-webkit-scrollbar { height: 8px; }
-.lessons-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-
-.lesson-card {
-    min-width: 140px; background: var(--white);
-    border: 2px solid #eee; border-radius: 20px;
-    padding: 20px 10px; text-align: center;
-    cursor: pointer; scroll-snap-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    flex-shrink: 0;
-}
-.lesson-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.05); border-color: var(--burgundy-light); }
-.lesson-icon { font-size: 2.5rem; margin-bottom: 10px; }
-.lesson-name { font-weight: bold; font-size: 0.95rem; color: var(--text-dark); }
-.lesson-badge { font-size: 1.2rem; margin-top: 5px; color: gold; }
-
-/* Locked State */
-.lesson-card.locked { background: var(--locked-gray); filter: grayscale(1); pointer-events: none; opacity: 0.7; border-color: #ccc; }
-.lesson-card.locked .lesson-badge::after { content: '🔒'; color: #666; }
-
-/* ================== BUTTONS & UI ================== */
-.btn {
-    background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light));
-    color: white; border: none; padding: 14px 24px; border-radius: 50px;
-    font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.2s;
-    width: 100%; margin-top: 10px;
-}
-.btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 0, 51, 0.3); }
-.btn-outline { background: transparent; border: 2px solid var(--burgundy); color: var(--burgundy); }
-.btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
-
-/* ================== QUIZ ELEMENTS ================== */
-.timer-container { width: 100%; height: 12px; background: #eee; border-radius: 20px; margin-bottom: 20px; overflow: hidden; }
-.timer-bar { height: 100%; width: 100%; background-color: var(--correct); transition: width 1s linear, background-color 0.5s ease; }
-.options-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* Stacks them in one column on mobile */
-    gap: 10px;
-}
-
-@media (min-width: 400px) {
-    .options-grid {
-        grid-template-columns: 1fr 1fr; /* Two columns for slightly wider screens */
-    }
-}
-.option { background: var(--white); border: 2px solid #eaeaea; padding: 15px; border-radius: 15px; cursor: pointer; font-size: 1.1rem; font-weight: bold; text-align: center; }
-.correct { background: var(--correct) !important; color: white !important; border-color: var(--correct) !important; }
-.wrong { background: var(--wrong) !important; color: white !important; border-color: var(--wrong) !important; }
-
-/* Fun Kids Animations */
-.bounce { animation: bounce 2s infinite; }
-@keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
-.floating-star { position: absolute; font-size: 2rem; opacity: 0.2; animation: float 4s ease-in-out infinite; right: 20px; top: 50px; pointer-events: none;}
-.floating-star.style-2 { left: 20px; top: 150px; font-size: 1.5rem; animation-duration: 5s; animation-delay: 1s; }
-@keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(10deg); } }
-.huge-badge { font-size: 5rem; animation: bounce 1s ease; margin: 20px 0; }
