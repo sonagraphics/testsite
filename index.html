@@ -2,75 +2,190 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Era Albanian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <div class="app-container">
-
-    <!-- OVERLAY -->
-    <div id="menu-overlay" class="hidden" onclick="toggleMenu()"></div>
-
-    <!-- SIDE MENU -->
+    <!-- Menu Overlay -->
+    <div id="menu-overlay" class="menu-overlay hidden" onclick="toggleMenu()"></div>
+    <!-- Side Menu -->
     <div id="side-menu" class="side-menu">
-        <button class="close-menu" onclick="toggleMenu()">✖</button>
-
-        <div style="padding: 20px 25px;">
-            <button class="menu-btn" onclick="showScreen('screen-welcome')">Home</button>
-            <button class="menu-btn" onclick="showScreen('screen-worlds')">Lessons Map</button>
-            <button class="menu-btn" onclick="showScreen('screen-login')">Sign In</button>
+        <button class="close-menu" onclick="toggleMenu()">✕</button>
+        <div class="menu-profile">
+            <div class="menu-avatar">🦅</div>
+            <span id="menu-username">Guest</span>
         </div>
+        <nav class="menu-nav">
+            <button class="menu-btn" onclick="showScreen('screen-welcome')">
+                <span class="menu-icon">🏠</span> Home
+            </button>
+            <button class="menu-btn" onclick="showScreen('screen-worlds')">
+                <span class="menu-icon">🗺️</span> Lessons Map
+            </button>
+            <button class="menu-btn" onclick="showScreen('screen-profile')">
+                <span class="menu-icon">👤</span> My Progress
+            </button>
+            <button class="menu-btn" onclick="showScreen('screen-login')">
+                <span class="menu-icon">🔑</span> Sign In
+            </button>
+        </nav>
+        <div class="menu-footer">ERA Albanian © 2025</div>
     </div>
 
-    <!-- HEADER -->
+    <!-- Header -->
     <header class="app-header">
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <img src="Eralogo.png" class="logo-small" alt="Era Logo">
-        <div class="header-spacer"></div>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+        <div class="logo-text" onclick="showScreen('screen-welcome')">ERA</div>
+        <div class="header-xp" id="header-xp">⭐ <span id="header-xp-val">0</span></div>
     </header>
 
-    <!-- WELCOME -->
+    <!-- WELCOME SCREEN -->
     <div id="screen-welcome" class="screen active">
+        <!-- Hero -->
         <section class="hero-section">
-            <h1>Let’s Learn Albanian!</h1>
-            <p>Play, explore, and unlock new words as you go!</p>
-            <button class="btn" onclick="showScreen('screen-worlds')">
-                Start Adventure
-            </button>
+            <div class="hero-flag">🇦🇱</div>
+            <h1 class="hero-title">Mëso Shqip!</h1>
+            <p class="hero-sub">Learn Albanian through play</p>
+            <button class="btn-hero" onclick="showScreen('screen-worlds')">Start Adventure →</button>
         </section>
+
+        <!-- Weekly Tracker -->
+        <section class="card-section">
+            <div class="section-header">
+                <span class="section-icon">📅</span>
+                <h3>Weekly Streak</h3>
+            </div>
+            <div class="day-list" id="day-list">
+                <div class="day-item" data-day="0"><span>M</span><div class="dot"></div></div>
+                <div class="day-item" data-day="1"><span>T</span><div class="dot"></div></div>
+                <div class="day-item" data-day="2"><span>W</span><div class="dot"></div></div>
+                <div class="day-item" data-day="3"><span>T</span><div class="dot"></div></div>
+                <div class="day-item" data-day="4"><span>F</span><div class="dot"></div></div>
+                <div class="day-item" data-day="5"><span>S</span><div class="dot"></div></div>
+                <div class="day-item" data-day="6"><span>S</span><div class="dot"></div></div>
+            </div>
+            <div class="streak-row">
+                <span id="streak-msg">🔥 Keep your streak alive!</span>
+            </div>
+        </section>
+
+        <!-- Stats Row -->
+        <section class="stats-row">
+            <div class="stat-pill">
+                <div class="stat-num" id="stat-lessons">0</div>
+                <div class="stat-label">Lessons Done</div>
+            </div>
+            <div class="stat-pill">
+                <div class="stat-num" id="stat-xp">0</div>
+                <div class="stat-label">Total XP</div>
+            </div>
+            <div class="stat-pill">
+                <div class="stat-num" id="stat-streak">0</div>
+                <div class="stat-label">Day Streak</div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="card-section">
+            <div class="section-header">
+                <span class="section-icon">⚡</span>
+                <h3>Quick Practice</h3>
+            </div>
+            <div class="quick-btns">
+                <button class="quick-btn" onclick="showScreen('screen-worlds')">
+                    <span>🗺️</span>
+                    <span>Lesson Map</span>
+                </button>
+                <button class="quick-btn" onclick="showScreen('screen-profile')">
+                    <span>📊</span>
+                    <span>My Stats</span>
+                </button>
+            </div>
+        </section>
+
+    
+      
     </div>
 
-    <!-- WORLDS -->
+    <!-- WORLDS / MAP SCREEN -->
     <div id="screen-worlds" class="screen">
+        <div class="worlds-header">
+            <h2>Lesson Map</h2>
+            <p>Complete each level to unlock the next!</p>
+        </div>
         <div id="worlds-container"></div>
     </div>
 
-    <!-- QUIZ -->
+    <!-- QUIZ SCREEN -->
     <div id="screen-quiz" class="screen">
-        <h2 id="question-text"></h2>
-        <div id="options-grid"></div>
-        <p id="feedback"></p>
+        <div class="quiz-top">
+            <button class="back-btn" onclick="confirmQuit()">✕</button>
+            <div class="quiz-progress-wrap">
+                <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
+            </div>
+            <div class="quiz-score-badge" id="quiz-score-badge">0 XP</div>
+        </div>
+        <div class="timer-container">
+            <div id="timer-bar" class="timer-bar"></div>
+        </div>
+        <p id="timer-text" class="timer-text">10s</p>
+        <div class="quiz-body">
+            <p class="question-num" id="question-num">Question 1</p>
+            <h2 id="question-text" class="question-text"></h2>
+            <div id="options-grid" class="options-grid"></div>
+            <p id="feedback" class="feedback-text"></p>
+        </div>
     </div>
 
-    <!-- END -->
+    <!-- END SCREEN -->
     <div id="screen-end" class="screen">
-        <h2>Lesson Complete</h2>
-        <p id="final-score"></p>
-        <button class="btn" onclick="showScreen('screen-worlds')">Back</button>
+        <div class="end-content">
+            <div class="end-trophy" id="end-trophy">🏆</div>
+            <h2 class="end-title">Lesson Complete!</h2>
+            <div class="end-score-circle">
+                <div class="end-score-num" id="final-score-num">0</div>
+                <div class="end-score-label">XP Earned</div>
+            </div>
+            <p id="end-message" class="end-message"></p>
+            <button class="btn" onclick="showScreen('screen-worlds')">Back to Map</button>
+            <button class="btn btn-outline" onclick="showScreen('screen-welcome')">🏠 Home</button>
+        </div>
     </div>
 
-    <!-- LOGIN -->
+    <!-- PROFILE SCREEN -->
+    <div id="screen-profile" class="screen">
+        <div class="profile-header">
+            <div class="profile-avatar">🦅</div>
+            <h2 id="profile-name">Guest</h2>
+            <p id="profile-level">Beginner</p>
+        </div>
+        <div class="profile-stats">
+            <div class="profile-stat"><div class="ps-num" id="ps-xp">0</div><div class="ps-label">Total XP</div></div>
+            <div class="profile-stat"><div class="ps-num" id="ps-lessons">0</div><div class="ps-label">Lessons</div></div>
+            <div class="profile-stat"><div class="ps-num" id="ps-streak">0</div><div class="ps-label">Streak</div></div>
+        </div>
+        <div class="card-section">
+            <div class="section-header"><span class="section-icon">🗺️</span><h3>Progress</h3></div>
+            <div id="profile-progress-list"></div>
+        </div>
+    </div>
+
+    <!-- LOGIN SCREEN -->
     <div id="screen-login" class="screen">
-        <h2 style="padding:20px;">Login</h2>
+        <div class="login-content">
+            <div class="login-flag">🇦🇱</div>
+            <h2 class="login-title">Welcome to ERA</h2>
+            <p class="login-sub">Enter your name to save progress</p>
+            <input type="text" id="username" class="auth-input" placeholder="Your name...">
+            <button class="btn" onclick="handleLogin()">Let's Go! →</button>
+        </div>
     </div>
-
 </div>
-
 <script src="data.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
