@@ -94,12 +94,26 @@ function renderWorlds() {
  * Quiz Logic
  */
 function startLesson(w, l) {
+    console.log("Starting lesson:", w, l);
+
+
+    if (!window.albanianApp || !window.albanianApp.worlds) {
+        console.error("❌ albanianApp data not loaded");
+        alert("Data is still loading. Please refresh the page.");
+        return;
+    }
+
     currentWorld = w;
     currentLesson = l;
     currentQuestion = 0;
     score = 0;
+
     showScreen("screen-quiz");
-    loadQuestion();
+
+    // small delay ensures DOM switches before loading question
+    setTimeout(() => {
+        loadQuestion();
+    }, 50);
 }
 
 function loadQuestion() {
@@ -218,4 +232,10 @@ window.addEventListener('load', () => {
     if (msg && saved.length > 0) {
         msg.innerText = `🔥 ${saved.length} day streak!`;
     }
+});
+document.querySelectorAll('.day-item').forEach(day => {
+    day.addEventListener('click', () => {
+        const index = parseInt(day.getAttribute('data-day'));
+        checkIn(index);
+    });
 });
