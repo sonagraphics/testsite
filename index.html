@@ -29,9 +29,7 @@
             <button class="menu-btn" onclick="showScreen('screen-profile')">
                 <span class="menu-icon">👤</span> My Progress
             </button>
-            <button class="menu-btn" onclick="showScreen('screen-login')">
-                <span class="menu-icon">🔑</span> Sign In
-            </button>
+          
         </nav>
         <div class="menu-footer">ERA Albanian © 2025</div>
     </div>
@@ -50,7 +48,7 @@
             <div class="hero-flag">🇦🇱</div>
             <h1 class="hero-title">Mëso Shqip!</h1>
             <p class="hero-sub">Learn Albanian through play</p>
-            <button class="btn-hero" onclick="showScreen('screen-worlds')">Start Adventure →</button>
+            <button class="btn-hero" onclick="startLesson(0, 0)">Start Adventure →</button>
         </section>
 
         <!-- Weekly Tracker -->
@@ -174,17 +172,7 @@
         </div>
     </div>
 
-    <!-- LOGIN SCREEN -->
-    <div id="screen-login" class="screen">
-        <div class="login-content">
-            <div class="login-flag">🇦🇱</div>
-            <h2 class="login-title">Welcome to ERA</h2>
-            <p class="login-sub">Enter your name to save progress</p>
-            <input type="text" id="username" class="auth-input" placeholder="Your name...">
-            <button class="btn" onclick="handleLogin()">Let's Go! →</button>
-        </div>
     </div>
-</div>
 <script src="data.js"></script>
 <script src="script.js"></script>
 </body>
