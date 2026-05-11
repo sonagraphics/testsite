@@ -179,7 +179,26 @@ function startTimer() {
         }
     }, 1000);
 }
+document.getElementById("next-lesson-btn").addEventListener("click", () => {
+    const worlds = window.albanianApp.worlds;
 
+    let nextWorld = currentWorld;
+    let nextLesson = currentLesson + 1;
+
+    // Move to next world if no more lessons
+    if (nextLesson >= worlds[currentWorld].lessons.length) {
+        nextWorld++;
+        nextLesson = 0;
+    }
+
+    // If no more worlds → go back to map
+    if (nextWorld >= worlds.length) {
+        showScreen("screen-worlds");
+        return;
+    }
+
+    startLesson(nextWorld, nextLesson);
+});
 // --- STREAK LOGIC ---
 function checkIn(dayIndex) {
     const days = document.querySelectorAll('.day-item');
