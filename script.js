@@ -1,4 +1,6 @@
-// Global State
+console.log("data.js loaded");
+
+// / Global State
 let currentWorld = 0;
 let currentLesson = 0;
 let currentQuestion = 0;
@@ -94,12 +96,8 @@ function renderWorlds() {
  * Quiz Logic
  */
 function startLesson(w, l) {
-    console.log("Starting lesson:", w, l);
-
-
-    if (!window.albanianApp || !window.albanianApp.worlds) {
-        console.error("❌ albanianApp data not loaded");
-        alert("Data is still loading. Please refresh the page.");
+    if (!window.albanianApp?.worlds) {
+        alert("Game data failed to load. Check data.js file.");
         return;
     }
 
@@ -109,11 +107,7 @@ function startLesson(w, l) {
     score = 0;
 
     showScreen("screen-quiz");
-
-    // small delay ensures DOM switches before loading question
-    setTimeout(() => {
-        loadQuestion();
-    }, 50);
+    setTimeout(loadQuestion, 50);
 }
 
 function loadQuestion() {
