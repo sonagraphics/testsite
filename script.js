@@ -56,39 +56,85 @@ function showScreen(id) {
  */
 function renderWorlds() {
     const container = document.getElementById("worlds-container");
-    
+
     if (!window.albanianApp || !window.albanianApp.worlds) {
-        console.error("Data.js is missing or not loaded!");
-        container.innerHTML = `<div style="text-align: center;"><p>⚠️ Data not found.</p></div>`;
+        container.innerHTML = `<p>⚠️ Data not found.</p>`;
         return;
     }
 
     const worldsData = window.albanianApp.worlds;
-    container.innerHTML = ""; 
+    container.innerHTML = "";
 
-    worldsData.forEach((world, i) => {
-        const worldCard = document.createElement("div");
-        worldCard.className = "world-card";
-        
-        worldCard.innerHTML = `
-            <div class="world-card-header">
-                <div class="world-icon">${world.icon}</div>
-                <div class="world-info">
-                    <div class="world-title">${world.title}</div>
-                    <div class="world-subtitle">${world.subtitle}</div>
+    const sections = [
+        {
+            title: "🟢 Basic",
+            start: 0,
+            end: 3
+        },
+        {
+            title: "🟡 Medium",
+            start: 4,
+            end: 6
+        },
+        {
+            title: "🔴 Hard",
+            start: 7,
+            end: 9
+        }
+    ];
+
+    sections.forEach(section => {
+        const heading = document.createElement("h3");
+        heading.className = "difficulty-title";
+        heading.innerText = section.title;
+        container.appendChild(heading);
+
+        worldsData.slice(section.start, section.end + 1).forEach((world, index) => {
+
+            const realIndex = section.start + index;
+
+            const unlocked = realIndex === 0 || localStorage.getItem(`lesson-${realIndex - 1}-done`);
+
+            const worldCard = document.createElement("div");
+            worldCard.className = unlocked ? "world-card" : "world-card locked";
+
+            worldCard.innerHTML = `
+                <div class="world-card-header">
+                    <div class="world-icon ${!unlocked ? 'locked-icon' : ''}">
+                        ${world.icon}
+                    </div>
+
+                    <div class="world-info">
+                        <div class="world-title">${world.title}</div>
+                        <div class="world-subtitle">${world.subtitle}</div>
+                    </div>
+
+                    ${!unlocked ? `<div class="world-lock">🔒</div>` : ""}
                 </div>
-            </div>
-        `;
+            `;
 
-        world.lessons.forEach((lesson, j) => {
-            const btn = document.createElement("button");
-            btn.className = "lesson-pill";
-            btn.textContent = lesson.title;
-            btn.onclick = () => startLesson(i, j);
-            worldCard.appendChild(btn);
+            world.lessons.forEach((lesson, j) => {
+                const btn = document.createElement("button");
+
+           btn.className = unlocked
+    ? "lesson-pill"
+    : "lesson-pill locked-pill";
+                btn.innerHTML = `
+                    <span>${lesson.title}</span>
+                    <span class="lesson-badge ${!unlocked ? 'locked-badge' : ''}">
+                        ${unlocked ? 'PLAY' : 'LOCK'}
+                    </span>
+                `;
+
+                if (unlocked) {
+                    btn.onclick = () => startLesson(realIndex, j);
+                }
+
+                worldCard.appendChild(btn);
+            });
+
+            container.appendChild(worldCard);
         });
-
-        container.appendChild(worldCard);
     });
 }
 
@@ -122,6 +168,7 @@ function loadQuestion() {
 
     const answers = document.getElementById("options-grid");
     answers.innerHTML = "";
+    document.getElementById("feedback").innerText = "";
 
     question.options.forEach(opt => {
         const btn = document.createElement("div");
@@ -132,20 +179,50 @@ function loadQuestion() {
     });
 
     startTimer();
+    
 }
 
 function checkAnswer(selected, correct, el) {
-    clearInterval(timer); 
+
+    clearInterval(timer);
+
     const options = document.querySelectorAll('.option');
-    options.forEach(opt => opt.style.pointerEvents = 'none'); 
+
+    options.forEach(opt => {
+        opt.style.pointerEvents = 'none';
+
+        if (opt.innerText === correct) {
+            opt.classList.add("correct");
+        }
+    });
+
+    const feedback = document.getElementById("feedback");
 
     if (selected === correct) {
+
         el.classList.add("correct");
+
         score += 10;
+
+        const messages = window.albanianApp.feedback.correct;
+
+        feedback.innerText =
+            messages[Math.floor(Math.random() * messages.length)];
+
     } else {
+
         el.classList.add("wrong");
+
+        const messages = window.albanianApp.feedback.wrong;
+
+        feedback.innerText =
+            messages[Math.floor(Math.random() * messages.length)]
+            .replace("[ANS]", correct);
     }
-    setTimeout(nextQuestion, 700);
+
+    document.getElementById("quiz-score-badge").innerText = `${score} XP`;
+
+    setTimeout(nextQuestion, 1400);
 }
 
 function nextQuestion() {
@@ -159,6 +236,7 @@ function nextQuestion() {
     } else {
         const finalScoreLabel = document.getElementById("final-score-num");
         if (finalScoreLabel) finalScoreLabel.innerText = score;
+        localStorage.setItem(`lesson-${currentWorld}-done`, true);
         showScreen("screen-end");
     }
 }
@@ -178,6 +256,41 @@ function startTimer() {
             nextQuestion();
         }
     }, 1000);
+}
+
+// --- STREAK LOGIC ---
+function checkIn(dayIndex) {
+
+    const today = new Date().getDay();
+
+    // Convert JS Sunday-first → Monday-first
+    const adjustedToday = today === 0 ? 6 : today - 1;
+
+    if (dayIndex !== adjustedToday) return;
+
+    const days = document.querySelectorAll('.day-item');
+
+    days.forEach(day => day.classList.remove('completed'));
+
+    days[dayIndex].classList.add('completed');
+
+    localStorage.setItem('today-checkin', dayIndex);
+
+    const msg = document.getElementById('streak-msg');
+
+    if (msg) {
+        msg.innerText = "🔥 Great job practicing today!";
+    }
+}
+
+function saveStreak() {
+    const completedDays = [];
+    document.querySelectorAll('.day-item').forEach((day, index) => {
+        if (day.classList.contains('completed')) {
+            completedDays.push(index);
+        }
+    });
+    localStorage.setItem('albanianStreak', JSON.stringify(completedDays));
 }
 document.getElementById("next-lesson-btn").addEventListener("click", () => {
     const worlds = window.albanianApp.worlds;
@@ -199,32 +312,6 @@ document.getElementById("next-lesson-btn").addEventListener("click", () => {
 
     startLesson(nextWorld, nextLesson);
 });
-// --- STREAK LOGIC ---
-function checkIn(dayIndex) {
-    const days = document.querySelectorAll('.day-item');
-    if (!days[dayIndex]) return;
-
-    days[dayIndex].classList.toggle('completed');
-    
-    const msg = document.getElementById('streak-msg');
-    const totalCompleted = document.querySelectorAll('.day-item.completed').length;
-    
-    if (msg) {
-        msg.innerText = totalCompleted > 0 ? `🔥 ${totalCompleted} day streak!` : "🔥 Keep your streak alive!";
-    }
-    
-    saveStreak();
-}
-
-function saveStreak() {
-    const completedDays = [];
-    document.querySelectorAll('.day-item').forEach((day, index) => {
-        if (day.classList.contains('completed')) {
-            completedDays.push(index);
-        }
-    });
-    localStorage.setItem('albanianStreak', JSON.stringify(completedDays));
-}
 
 /**
  * INITIALIZE EVERYTHING ON LOAD
@@ -239,7 +326,13 @@ window.addEventListener('load', () => {
     saved.forEach(index => {
         if(days[index]) days[index].classList.add('completed');
     });
+const startBtn = document.getElementById("start-adventure");
 
+if (startBtn) {
+    startBtn.addEventListener("click", () => {
+        showScreen("screen-worlds");
+    });
+}
     // 3. Update the streak message based on saved data
     const msg = document.getElementById('streak-msg');
     if (msg && saved.length > 0) {
@@ -252,3 +345,5 @@ document.querySelectorAll('.day-item').forEach(day => {
         checkIn(index);
     });
 });
+
+
