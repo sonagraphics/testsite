@@ -48,9 +48,13 @@
             <div class="hero-flag">🇦🇱</div>
             <h1 class="hero-title">Mëso Shqip!</h1>
             <p class="hero-sub">Learn Albanian through play</p>
-            <button class="btn-hero" onclick="startLesson(0, 0)">Start Adventure →</button>
+          
         </section>
-
+<div class="hero-play-wrap">
+    <button class="play-btn" onclick="showScreen('screen-worlds')">
+        ▶ Start Adventure
+    </button>
+</div>
         <!-- Weekly Tracker -->
         <section class="card-section">
             <div class="section-header">
@@ -121,7 +125,6 @@
     <!-- QUIZ SCREEN -->
     <div id="screen-quiz" class="screen">
         <div class="quiz-top">
-            <button class="back-btn" onclick="confirmQuit()">✕</button>
             <div class="quiz-progress-wrap">
                 <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
             </div>
